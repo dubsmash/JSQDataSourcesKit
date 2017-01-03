@@ -120,4 +120,11 @@ extension BridgedDataSource: UITableViewDataSource {
     @objc func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         tableCommitEditingStyleForRow?(tableView,editingStyle,indexPath)
     }
+    
+    @objc func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        if let closure = tableTitleForHeaderInSection {
+            return (0..<numberOfSections()).flatMap { closure($0) }
+        }
+        return nil
+    }
 }
