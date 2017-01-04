@@ -122,9 +122,10 @@ extension BridgedDataSource: UITableViewDataSource {
     }
     
     @objc func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        if let closure = tableTitleForHeaderInSection {
-            return (0..<numberOfSections()).flatMap { closure($0) }
+        guard numberOfSections() > tableView.sectionIndexMinimumDisplayRowCount,
+            let closure = tableTitleForHeaderInSection else {
+            return nil
         }
-        return nil
+        return (0..<numberOfSections()).flatMap { closure($0) }
     }
 }
